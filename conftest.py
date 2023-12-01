@@ -1,8 +1,6 @@
-from urllib import request
-
 import pytest
-import os
 
+from .pages.base_methods import BaseMethods
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service as ChromeService
 from webdriver_manager.chrome import ChromeDriverManager
@@ -30,6 +28,10 @@ def browser(request):
     driver.implicitly_wait(3)
     driver.maximize_window()
     driver.get(request.config.getoption("--url"))
-
     yield driver
     driver.quit()
+    BaseMethods.api_delete_tests_file()
+    # delete_url = "https://cloud-api.yandex.net/v1/disk/resources?path=TestName.docx&permanently=true"
+    # headers = {'Authorization': 'OAuth y0_AgAAAAByb1ODAADLWwAAAADzbOpmCEE7bzh2Swq1KU1x5Gl1vooS0gA'}
+    # response = requests.request("DELETE", url=delete_url, headers=headers)
+    # print(response.status_code, "STATUS_CODE")

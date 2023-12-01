@@ -4,6 +4,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.common.action_chains import ActionChains
 from .locators import DiskPageLocators
+import requests
 
 
 class BaseMethods:
@@ -48,6 +49,12 @@ class BaseMethods:
         self.driver.switch_to.window(self.driver.window_handles[-1])
         self.driver.close()
         self.driver.switch_to.window(self.driver.window_handles[1])
+
+    @staticmethod
+    def api_delete_tests_file():
+        delete_url = "https://cloud-api.yandex.net/v1/disk/resources?path=TestName.docx&permanently=true"
+        headers = {'Authorization': 'OAuth y0_AgAAAAByb1ODAADLWwAAAADzbOpmCEE7bzh2Swq1KU1x5Gl1vooS0gA'}
+        requests.request("DELETE", url=delete_url, headers=headers)
 
     '''TO DO'''
     # @staticmethod
