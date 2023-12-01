@@ -6,6 +6,7 @@ from selenium.webdriver.chrome.service import Service as ChromeService
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.firefox.service import Service as FirefoxService
 from webdriver_manager.firefox import GeckoDriverManager
+from .pages.disk_page import DiskPage
 
 
 def pytest_addoption(parser):
@@ -30,8 +31,11 @@ def browser(request):
     driver.get(request.config.getoption("--url"))
     yield driver
     driver.quit()
+
+
+
+@pytest.fixture()
+def logout(browser):
+    yield
+    DiskPage(browser).logout()
     BaseMethods.api_delete_tests_file()
-    # delete_url = "https://cloud-api.yandex.net/v1/disk/resources?path=TestName.docx&permanently=true"
-    # headers = {'Authorization': 'OAuth y0_AgAAAAByb1ODAADLWwAAAADzbOpmCEE7bzh2Swq1KU1x5Gl1vooS0gA'}
-    # response = requests.request("DELETE", url=delete_url, headers=headers)
-    # print(response.status_code, "STATUS_CODE")

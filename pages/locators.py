@@ -26,6 +26,8 @@ class DiskPageLocators:
     ALL_FILES_NAME = (By.CSS_SELECTOR, "div[class='listing-item__title listing-item__title_overflow_clamp']")
     AVATAR_BTN = (By.CSS_SELECTOR, "div[class='PSHeader-User PSHeader-User_noUserName promozavr-anchor-user']")
     LOGOUT_BTN = (By.XPATH, "//ul[@class='menu__group']/li[6]")
+    UPLOAD_BTN = (By.CSS_SELECTOR, "input[class='context-menu-create-popup__upload-input']")
+    CONTEXT_FIELD = (By.CSS_SELECTOR, "div[class='root__content-container']")
 
     @staticmethod
     def docx_file(name: str):

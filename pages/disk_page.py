@@ -9,33 +9,24 @@ class DiskPage(BaseMethods):
         super().__init__(driver)
 
     def create_docs_file(self, file_name):
-        try:
-            self.click(*DiskPageLocators.CREATE_BTN)
-            self.click(*DiskPageLocators.CREATE_TEXT_DOC_BTN)
-            while self.find_element(*DiskPageLocators.INPUT_NAME_FIELD).get_attribute('value') != '':
-                self.find_element(*DiskPageLocators.INPUT_NAME_FIELD).send_keys(Keys.BACK_SPACE)
-            self.input_value(*DiskPageLocators.INPUT_NAME_FIELD, file_name)
-            self.click(*DiskPageLocators.CREATE_SUBMIT_BTN)
-            self.close_window()
-        except TimeoutException:
-            print("Ошибка в создании текстового файла")
+        self.click(*DiskPageLocators.CREATE_BTN)
+        self.click(*DiskPageLocators.CREATE_TEXT_DOC_BTN)
+        while self.find_element(*DiskPageLocators.INPUT_NAME_FIELD).get_attribute('value') != '':
+            self.find_element(*DiskPageLocators.INPUT_NAME_FIELD).send_keys(Keys.BACK_SPACE)
+        self.input_value(*DiskPageLocators.INPUT_NAME_FIELD, file_name)
+        self.click(*DiskPageLocators.CREATE_SUBMIT_BTN)
+        self.close_window()
 
     def create_folder(self, folder_name):
-        try:
-            self.click(*DiskPageLocators.CREATE_BTN)
-            self.click(*DiskPageLocators.CREATE_FOLDER_BTN)
-            if self.find_element(*DiskPageLocators.INPUT_NAME_FIELD).get_attribute('value') != '':
-                self.find_element(*DiskPageLocators.INPUT_NAME_FIELD).send_keys(Keys.BACK_SPACE)
-            self.input_value(*DiskPageLocators.INPUT_NAME_FIELD, folder_name)
-            self.click(*DiskPageLocators.CREATE_SUBMIT_BTN)
-        except TimeoutException:
-            print("Ошибка в создании папки")
+        self.click(*DiskPageLocators.CREATE_BTN)
+        self.click(*DiskPageLocators.CREATE_FOLDER_BTN)
+        while self.find_element(*DiskPageLocators.INPUT_NAME_FIELD).get_attribute('value') != '':
+            self.find_element(*DiskPageLocators.INPUT_NAME_FIELD).send_keys(Keys.BACK_SPACE)
+        self.input_value(*DiskPageLocators.INPUT_NAME_FIELD, folder_name)
+        self.click(*DiskPageLocators.CREATE_SUBMIT_BTN)
 
-    def open(self, file_name):
-        try:
-            self.double_click(file_name)
-        except TimeoutException:
-            print("Не удалось открыть")
+    def open_by_double_click(self, file_name):
+        self.double_click(self.find_element(*DiskPageLocators.folder(file_name)))
 
     def check_file_name(self, file_name):
         try:
@@ -50,3 +41,8 @@ class DiskPage(BaseMethods):
     def logout(self):
         self.click(*DiskPageLocators.AVATAR_BTN)
         self.click(*DiskPageLocators.LOGOUT_BTN)
+
+    def upload_file(self, name):
+        self.call_context_menu()
+        self.create_txt_file(self, name)
+        self.find_element(*DiskPageLocators.UPLOAD_BTN).send_keys(f'data/{name}')

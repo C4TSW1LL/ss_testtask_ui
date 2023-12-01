@@ -10,6 +10,7 @@ import requests
 class BaseMethods:
     def __init__(self, driver):
         self.driver = driver
+        self.action = ActionChains(self.driver)
 
     def find_element(self, by: By, selector: str, timeout=5):
         return WebDriverWait(self.driver, timeout).until(
@@ -28,19 +29,19 @@ class BaseMethods:
             return False
 
     def click(self, by, selector: str):
-        try:
-            self.find_element(by, selector).click()
-        except TimeoutException:
-            return f'No such element {selector}'
+        self.find_element(by, selector).click()
 
-    ''' TO DO'''
-    def double_click(self, file_name):
+    def double_click(self, element):
         try:
-            action = ActionChains(self.driver)
-            element = self.find_element(*DiskPageLocators.folder(file_name))
-            action.double_click(element)
+            self.action.double_click(element).perform()
         except TimeoutException:
-            return f'No such element {file_name}'
+            return f'No such element {element}'
+
+    def call_context_menu(self):
+        try:
+            self.action.context_click(*DiskPageLocators.CONTEXT_FIELD).perform()
+        except TimeoutException:
+            return f'No such element {DiskPageLocators.CONTEXT_FIELD}'
 
     def input_value(self, by, selector: str, value):
         self.find_element(by, selector).send_keys(value)
@@ -52,15 +53,14 @@ class BaseMethods:
 
     @staticmethod
     def api_delete_tests_file():
-        delete_url = "https://cloud-api.yandex.net/v1/disk/resources?path=TestName.docx&permanently=true"
+        delete_url = "https://cloud-api.yandex.net/v1/disk/resources?path=TestFolder&permanently=true"
         headers = {'Authorization': 'OAuth y0_AgAAAAByb1ODAADLWwAAAADzbOpmCEE7bzh2Swq1KU1x5Gl1vooS0gA'}
         requests.request("DELETE", url=delete_url, headers=headers)
 
     '''TO DO'''
-    # @staticmethod
-    # def create_txt_file():
-    #     with open("data/test.txt", "w") as f:
-    #         f.write("The text to check")
 
-    # def upload_file(self):
-    #     self.
+    def create_txt_file(self, name: str):
+        with open(name, "w+") as f:
+            f.write("The text to check")
+
+
