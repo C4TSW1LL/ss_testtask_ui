@@ -1,5 +1,3 @@
-import time
-
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -38,8 +36,6 @@ class BaseMethods:
     def double_click(self, file_name):
         try:
             action = ActionChains(self.driver)
-            # self.click(*DiskPageLocators.folder(file_name))
-            # self.click(*DiskPageLocators.folder(file_name))
             element = self.find_element(*DiskPageLocators.folder(file_name))
             action.double_click(element)
         except TimeoutException:

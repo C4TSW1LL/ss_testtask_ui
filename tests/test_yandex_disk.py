@@ -17,6 +17,7 @@ def test_create_file(browser):
     disk_page.logout()
 
 
+"""Задание со звездочкой, готовое на 70%"""
 def test_upload_txt_file(browser):
     auth_page = AuthPage(browser)
     disk_page = DiskPage(browser)

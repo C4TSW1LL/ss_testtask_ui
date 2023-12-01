@@ -12,6 +12,8 @@ class DiskPage(BaseMethods):
         try:
             self.click(*DiskPageLocators.CREATE_BTN)
             self.click(*DiskPageLocators.CREATE_TEXT_DOC_BTN)
+            if self.find_element(*DiskPageLocators.INPUT_NAME_FIELD).get_attribute('value') != '':
+                self.find_element(*DiskPageLocators.INPUT_NAME_FIELD).send_keys(Keys.BACK_SPACE)
             self.input_value(*DiskPageLocators.INPUT_NAME_FIELD, file_name)
             self.click(*DiskPageLocators.CREATE_SUBMIT_BTN)
             self.close_window()

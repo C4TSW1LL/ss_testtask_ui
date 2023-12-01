@@ -1,8 +1,7 @@
-import time
-
 from .locators import AuthPageLocators
 from .base_methods import BaseMethods
 from selenium.common import TimeoutException
+from data.verification_data import VerData
 
 
 class AuthPage(BaseMethods):
@@ -13,9 +12,9 @@ class AuthPage(BaseMethods):
         try:
             self.click(*AuthPageLocators.AUTH_BTN)
             self.click(*AuthPageLocators.LOGIN_BY_EMAIL_BTN)
-            self.input_value(*AuthPageLocators.LOGIN_FIELD, "isaaknordman@yandex.ru")
+            self.input_value(*AuthPageLocators.LOGIN_FIELD, VerData.LOGIN)
             self.click(*AuthPageLocators.SING_IN_BTN)
-            self.input_value(*AuthPageLocators.PASSWORD_FIELD, "PasswordForYandex1337!")
+            self.input_value(*AuthPageLocators.PASSWORD_FIELD, VerData.PASSWORD)
             self.click(*AuthPageLocators.SING_IN_BTN)
             if self.check_element(*AuthPageLocators.CLOSE_ALERT_BUTTON):
                 self.click(*AuthPageLocators.CLOSE_ALERT_BUTTON)
@@ -23,6 +22,7 @@ class AuthPage(BaseMethods):
                 pass
         except TimeoutException:
             print("Ошибка в логине")
+
 
     def open_disk_page(self):
         try:
