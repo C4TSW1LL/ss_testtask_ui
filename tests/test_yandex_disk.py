@@ -1,6 +1,6 @@
 from ..pages.auth_page import AuthPage
 from ..pages.disk_page import DiskPage
-from ..data.verification_data import *
+from ..data.verification_data import VerData
 
 
 def test_create_file(browser, logout):
@@ -11,10 +11,10 @@ def test_create_file(browser, logout):
     auth_page.open_disk_page()
     disk_page.create_folder("TestFolder")
     disk_page.open_by_double_click("TestFolder")
-    disk_page.create_docs_file(DOCX_FILE_NAME)
+    disk_page.create_docs_file(VerData.DOCX_FILE_NAME)
 
-    assert disk_page.check_file_is_created(DOCX_FILE_NAME), f"Элемент {DOCX_FILE_NAME} не создан"
-    assert disk_page.check_file_name(DOCX_FILE_NAME) == "TestName.docx"
+    assert disk_page.check_file_is_created(VerData.DOCX_FILE_NAME), f"Элемент {VerData.DOCX_FILE_NAME} не создан"
+    assert disk_page.check_file_name(VerData.DOCX_FILE_NAME) == "TestName.docx"
 
 
 """Задание со звездочкой, готовое на 70%"""
